@@ -1,0 +1,92 @@
+/* Calculator Styling */
+
+#container{
+    width: 100%;
+    font-family: "Comic Sans MS";
+    background-color: #1F1F1F !important;
+    color: white;
+}
+
+#calculator{
+    width:90%;
+}
+
+#title{
+    padding: 30px;
+    vertical-align: center;
+    font-size: 30;
+}
+
+#menu-icon{
+    font-size: 30;
+}
+
+#output{
+    margin-bottom:9%;
+    background-color: #1F1F1F;
+    text-align: right;
+    font-size: 40px;
+    color:white;
+    outline:none;
+    border:none;
+}
+
+input[type="text"]:disabled {
+    cursor: context-menu;
+}
+
+.button{
+    color: white;
+    text-align: center;
+    width: 20%;
+    padding: 3% 0 !important;/* override default html table styling */
+    line-height: auto !important; 
+    vertical-align: center !important;
+    border-top: none !important;
+    border: 3px solid #1F1F1F;
+}
+.digit:hover, .operator:hover, .m_options:hover, #title i:hover{
+    background-color: hotpink;
+}
+
+.tab{
+    background-color: #1F1F1F;
+}
+
+.digit{
+    border: 1% solid #1F1F1F;
+    background-color: #070707;
+    font-size: 25;
+}
+
+.operator{
+    background-color: #141414;
+    font-size: 25;
+}
+
+#fraction, #cube, #square{
+    font-family: cursive !important; /* To make sure they look most like icons on design */
+}
+
+.m_options{
+    padding: 1% 2%;
+    margin-left:5%;
+    background-color: none;
+    max-width:6%;
+    float: left;
+}
+
+#plus_min{
+    transform: rotate(180deg);
+}
+
+.faded_option{
+    text-align: center;
+    color: #4C4C4C;
+}
+
+.History{
+    border-bottom: solid 2px hotpink;
+    
+    padding-bottom: 10px;
+}

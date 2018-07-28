@@ -1,0 +1,320 @@
+<!-- Calculator Main -->
+<html lang="en">
+    <HEAD>
+        <!-- Our styling -->
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+        <script src="./node_modules/bignumber.js/bignumber.js"></script>
+       
+        <!-- Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+        <meta charset="utf-8">
+
+        <!-- Adjusts screensize -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </HEAD>
+    
+   <body>
+    <div id="container">
+        <div class="row" id="calculator">
+            <div class="col-md-10">
+            
+            <div id="title"><span><i class="material-icons" id="menu_icon">menu</i>&nbsp&nbspStandard</span></div>
+            <input id="output" class= 'form-control' type ="text" value="0" disabled> </input> 
+            <div class="row" id="options">
+                <div class="m_options faded_option" id="mc">MC</div>
+                <div class="m_options faded_option" id="mc">MR</div>
+                <div class="m_options" id="mc">M+</div>
+                <div class="m_options" id="mc">M-</div>
+                <div class="m_options" id="mc">MS</div>
+            </div>
+            
+            <table class="table" id="button_grid">
+                <tbody>
+                    <tr class="row" id="row1">
+                        <td class="button operator" id="mod">%</td>
+                        <td class="button operator" id="ce" onclick = "clear_display();">CE</td>
+                        <td class="button operator" id="clear" onclick = "clear_display();"  >C</td>
+                        <td class="button operator" id="backspace"><i class="fas fa-backspace"></i></td>
+                        <td class="button operator" id="division" onclick = "change('div');"><i class="fas fa-divide"></i></td>
+                    </tr>
+                
+                    <tr class="row" id="row2">
+                        <td class="button operator special" id="sqrt"><span>&#8730;</span></td>
+                        <td class="button digit" id="button_7" onclick = "change(7);">7</td>
+                        <td class="button digit" id="button_8" onclick = "change(8);">8</td>
+                        <td class="button digit" id="button_9" onclick = "change(9);">9</td>
+                        <td class="button operator" id="mult" onclick = "change('x');"><i class="fas fa-times"></i></td>
+                    </tr>
+                
+                <tr class="row" id="row3">
+                    <td class="button operator special" id="square">x<sup>2</sup></td>
+                    <td class="button digit" id="button_4" onclick = "change(4);">4</td>
+                    <td class="button digit" id="button_5" onclick = "change(5);">5</td>
+                    <td class="button digit" id="button_6" onclick = "change(6);" >6</td>
+                    <td class="button operator" id="subtr" onclick = "change('-');"><i class="fas fa-minus"></i></td>
+                </tr>
+            
+                <tr class="row" id="row4">
+                    <td class="button operator special" id="cube">x<sup>3</sup></td>
+                    <td class="button digit" id="button_1" onclick = "change(1);">1</td>
+                    <td class="button digit" id="button_2" onclick = "change(2);">2</td>
+                    <td class="button digit" id="button_3" onclick = "change(3);">3</td>
+                    <td class="button operator" id="add" onclick = "change('+');"><i class="fas fa-plus"></i></td>
+                </tr>
+            
+                <tr class="row" id="row5">
+                    <td class="button operator special" id="fraction"><sup>1</sup>/<sub>x</sub></td>
+                    <td class="button operator special" id="plus_min"><span>&#8723;</span></td>
+                    <td class="button digit" id="button_0" onclick = "change(0);">0</td>
+                    <td class="button operator" id="decimal" onclick = "change('.');">.</td>
+                    <td class="button operator" id="equals" onclick = "change('=')"><i class="fas fa-equals"></i></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div class="row" id="sidebar">
+            <div class="col-md-1" class="tab">
+                <h3 class="History">History</h3>
+            </div>
+            <div class="col-md-1" class="tab" id="Memory">
+                <h3>Memory</h3>
+            </div>
+            <div class="col-md-2">
+                <div class="tab" id="history_content">
+                    There's no history yet.
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <script>
+
+        var last_entry=0;
+        var equation = [];
+        var last_number ="0";
+
+        function clear_display()
+        {
+        
+            document.getElementById("output").value=0;
+            last_entry=0;
+            equation = [];
+            last_number ="0";
+            return;
+        }
+
+
+        
+        function change(x)
+        {
+
+            
+          
+            var display=document.getElementById("output").value;
+            var operators =['div','x','+','-'];
+            
+
+
+
+            if(display.length==40)
+            {
+                alert("Prese the enter or equal button");
+                return;
+            }
+
+
+
+            if(display.length==39 && operators.indexOf(x) > 0)
+            {
+                alert("Please enter number or evaulte");
+                return;
+            }
+
+
+
+            if(display== 0 && operators.indexOf(x) < 0)  //if there is only a zero just put the number instead of "07" it would be "7"
+            {
+                document.getElementById("output").value =x;
+                last_entry=x;
+                last_number = x;
+                return;
+            }
+
+
+            if(operators.indexOf(x) >= 0 && operators.indexOf(last_entry) >=0) //two math signs
+            {
+                alert("Pease enter number");
+                return;
+            }
+
+     
+
+            if(operators.indexOf(x) >= 0 )
+            {
+                equation.push(last_number);
+                equation.push(x);
+                last_number ="";
+                last_entry=x;
+
+
+                if(x== 'div')
+                {
+                    document.getElementById("output").value = display + "/";
+                }
+                else
+                {
+                    document.getElementById("output").value = display + x;
+                }
+                return;
+            }
+            if(x == '=')
+            {
+                if(operators.indexOf(last_entry) >= 0)
+                {
+                    alert("Please enter a number");
+                    return;
+                }
+                equation.push(last_number);
+                equal(equation);
+                console.log(equation);
+                last_entry=0;
+                equation = [];
+                
+                return;
+            }
+
+            
+
+            document.getElementById("output").value = display + x;
+            last_entry=x;
+            last_number = last_number + x;
+
+            console.log(last_number);
+            console.log(equation)
+    
+        
+            
+            
+        
+            
+        }
+
+        function equal(arr)
+        {
+            
+            var total = new BigNumber(arr[0]);
+            for(i =0;i<arr.length;i++)
+            {
+                if (arr[i+1]== '+')
+                {
+                    total =  addition(total,arr[i+2]);
+                }
+                if (arr[i+1]== '-')
+                {
+                    total =  subtraction(total,arr[i+2]);
+                }
+                if (arr[i+1]== 'div')
+                {
+                    total =  divide(total,arr[i+2]);
+                }
+                if (arr[i+1]== 'x')
+                {
+                    total =  multiply(total,arr[i+2]);
+                }
+            }
+            document.getElementById("output").value = total;
+
+
+        }
+        function divide(numerator, denominator) {
+   
+   var numerator = new BigNumber(numerator);
+   var denominator = new BigNumber(denominator);
+
+   if (denominator != 0) {
+       return parseFloat(numerator.div(denominator).toString()).toFixed(32);
+   }
+   else {
+       alert("That operation is not permitted");
+   }
+}
+function subtraction(num_1, num_2) {
+  
+   var num_1 = new BigNumber(num_1);
+   var num_2 = new BigNumber(num_2);
+   if(num_1 >= 0 && num_2 >= 0){
+       
+      
+       var result = new BigNumber(num_1.minus(num_2));
+       if(result < 0)
+          alert("error");
+       else
+           return result.toString();
+       }
+}
+
+function multiply(x,y)
+{
+   
+   var a = new BigNumber(x);
+   var b = new BigNumber(y);
+   if(a == 0 || b == 0)
+   {
+       return "0";
+   }
+   
+   if(a < 0 || b < 0)
+   {
+       alert("Cant work with negative numbers");
+   }
+   
+   var product=(a.times(b));
+   
+   if(product >-1 && product < 1)
+   {
+       if(product.toString().length > 20)
+       {
+           return product.toFixed(20).toString();
+       }
+       else
+       {
+           return product.toString();
+       }
+   }
+
+   if(product.toString().length > 20)
+   {
+       return product.toExponential(9).toString();
+   }
+
+   return product.toString();
+
+}
+
+
+function addition(num_1, num_2)
+{
+  
+   var num_1 = new BigNumber(num_1);
+   var num_2 = new BigNumber(num_2);
+
+   return num_1.plus(num_2).toString();
+}
+        </script>
+    </body> 
+        
+</html>
